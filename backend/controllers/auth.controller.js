@@ -47,14 +47,7 @@ const login = async (req, res) => {
   try {
     const { userEmail } = await bindUser(username, password)
 
-    console.log('\n========== LOGIN DEBUG ==========')
-    console.log('USERNAME:', username)
-    console.log('USER EMAIL:', userEmail)
-
     const allowed = await isWhitelisted(userEmail)
-
-    console.log('WHITELIST RESULT:', allowed)
-    console.log('=================================\n')
 
     if (!allowed) {
       logger.warn(`Whitelist denied: ${username}`)
@@ -77,12 +70,6 @@ const login = async (req, res) => {
     })
 
   } catch (err) {
-    console.log('\n========== LOGIN ERROR ==========')
-    console.log('USERNAME:', username)
-    console.log('ERROR MESSAGE:', err.message)
-    console.log('FULL ERROR:', err)
-    console.log('=================================\n')
-
     logger.warn(`Login failed: ${username} — ${err.message}`)
 
     return res.status(401).json({
