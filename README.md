@@ -8,6 +8,25 @@ The application allows users to log in using Active Directory (LDAP) credentials
 
 ![Login Screen](./images/login.png)
 
+## AD Secure Screen
+
+![AD Secure Screen](./images/ADsecure.png)
+
+## AD Role Screen
+
+![AD Role Screen](./images/ADrole.png)
+
+## Login Admin Screen
+
+![Login Screen](./images/adminLogin.png)
+
+## Admin Pannel Screen
+
+![Admin Pannel Screen](./images/adminPannel.png)
+
+
+
+
 ---
 
 ## Features
