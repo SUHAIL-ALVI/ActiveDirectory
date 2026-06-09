@@ -1,165 +1,320 @@
 import { useAuth } from '../context/AuthContext'
 
-export default function Navbar({ page, setPage }) {
+export default function Navbar({ page, setPage, onAdminClick }) {
   const { token, logout } = useAuth()
-  const s = styles
 
   return (
-    <div style={s.nav}>
-      <div style={s.left}>
-        <div style={s.brand}>AD Auth System</div>
-      </div>
+    <div style={styles.outer}>
+      <div style={styles.nav}>
+        {/* Liquid Glass Reflection */}
+        <div style={styles.reflection} />
 
-      <div style={s.tabs}>
-        <button
-          style={page === 'login' || page === 'dashboard' ? s.active : s.tab}
-          onClick={() => setPage(token ? 'dashboard' : 'login')}
-          onMouseEnter={hoverIn}
-          onMouseLeave={hoverOut}
-        >
-          {token ? 'Dashboard' : 'Login'}
-        </button>
+        {/* Left Side */}
+        <div style={styles.brandSection}>
+          <div style={styles.logo}>AD</div>
 
-        <button
-          style={page === 'admin' ? s.active : s.tab}
-          onClick={() => setPage('admin')}
-          onMouseEnter={hoverIn}
-          onMouseLeave={hoverOut}
-        >
-          Admin
-        </button>
-      </div>
+          <div>
+            <div style={styles.brand}></div>
+            <div style={styles.subtitle}>
+             
+            </div>
+          </div>
+        </div>
 
-      <div style={s.right}>
-        {token && (
+        {/* Center Navigation */}
+        <div style={styles.centerNav}>
           <button
-            style={s.logout}
-            onClick={() => {
-              logout()
-              setPage('login')
-            }}
-            onMouseEnter={logoutHoverIn}
-            onMouseLeave={logoutHoverOut}
+            style={
+              page === 'login' || page === 'dashboard'
+                ? styles.activeTab
+                : styles.tab
+            }
+            onClick={() =>
+              setPage(token ? 'dashboard' : 'login')
+            }
+            onMouseEnter={buttonHoverIn}
+            onMouseLeave={buttonHoverOut}
           >
-            Logout
+            {token ? 'Dashboard' : 'Login'}
           </button>
-        )}
+
+          <button
+            style={
+              page === 'admin'
+                ? styles.activeTab
+                : styles.tab
+            }
+            onClick={onAdminClick}
+            onMouseEnter={buttonHoverIn}
+            onMouseLeave={buttonHoverOut}
+          >
+            Admin Portal
+          </button>
+        </div>
+
+        {/* Right Side */}
+        <div style={styles.rightSection}>
+          {token && (
+            <button
+              style={styles.logout}
+              onClick={() => {
+                logout()
+                setPage('login')
+              }}
+              onMouseEnter={logoutHoverIn}
+              onMouseLeave={logoutHoverOut}
+            >
+              Logout
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
 }
 
-/* subtle hover effects */
-const hoverIn = (e) => {
-  e.currentTarget.style.transform = 'translateY(-1px)'
+const buttonHoverIn = (e) => {
+  if (
+    !e.currentTarget.style.background.includes('linear-gradient')
+  ) {
+    e.currentTarget.style.background =
+      'rgba(255,255,255,0.25)'
+  }
+
+  e.currentTarget.style.transform =
+    'translateY(-2px)'
 }
 
-const hoverOut = (e) => {
-  e.currentTarget.style.transform = 'translateY(0)'
+const buttonHoverOut = (e) => {
+  e.currentTarget.style.transform =
+    'translateY(0)'
 }
 
 const logoutHoverIn = (e) => {
-  e.currentTarget.style.background = 'rgba(255,59,48,0.08)'
-  e.currentTarget.style.transform = 'translateY(-1px)'
+  e.currentTarget.style.transform =
+    'translateY(-2px)'
+
+  e.currentTarget.style.background =
+    'rgba(255,59,48,.08)'
 }
 
 const logoutHoverOut = (e) => {
-  e.currentTarget.style.background = 'rgba(255,255,255,0.35)'
-  e.currentTarget.style.transform = 'translateY(0)'
+  e.currentTarget.style.transform =
+    'translateY(0)'
+
+  e.currentTarget.style.background =
+    'rgba(255,255,255,.22)'
 }
 
 const styles = {
+  outer: {
+    padding: '20px'
+  },
+
   nav: {
-    position: 'sticky',
-    top: 0,
-    zIndex: 50,
+    position: 'relative',
+
+    maxWidth: '1400px',
+    margin: '0 auto',
+
+    display: 'grid',
+    gridTemplateColumns: '1fr auto 1fr',
+
+    alignItems: 'center',
+
+    padding: '14px 18px',
+
+    background: 'rgba(255,255,255,0.18)',
+
+    backdropFilter: 'blur(40px) saturate(180%)',
+    WebkitBackdropFilter:
+      'blur(40px) saturate(180%)',
+
+    borderRadius: '34px',
+
+    border:
+      '1px solid rgba(255,255,255,0.45)',
+
+    boxShadow: `
+      0 25px 60px rgba(0,0,0,.08),
+      inset 0 1px 1px rgba(255,255,255,.9),
+      inset 0 -1px 1px rgba(255,255,255,.2)
+    `,
+
+    overflow: 'hidden'
+  },
+
+  reflection: {
+    position: 'absolute',
+
+    top: '-250%',
+    left: '-20%',
+
+    width: '140%',
+    height: '500%',
+
+    background: `
+      linear-gradient(
+        120deg,
+        transparent 45%,
+        rgba(255,255,255,.18) 50%,
+        transparent 55%
+      )
+    `,
+
+    pointerEvents: 'none'
+  },
+
+  brandSection: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px'
+  },
+
+  logo: {
+    width: '52px',
+    height: '52px',
 
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
 
-    padding: '12px 22px',
+    borderRadius: '18px',
 
-    background: 'rgba(255,255,255,0.55)',
-    backdropFilter: 'blur(22px)',
-    WebkitBackdropFilter: 'blur(22px)',
+    background: `
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,.7),
+        rgba(255,255,255,.3)
+      )
+    `,
 
-    borderBottom: '1px solid rgba(255,255,255,0.6)',
+    border:
+      '1px solid rgba(255,255,255,.7)',
 
-    boxShadow: '0 8px 24px rgba(0,0,0,0.05)'
-  },
+    backdropFilter: 'blur(25px)',
 
-  left: {
-    display: 'flex',
-    alignItems: 'center'
+    color: '#1d1d1f',
+
+    fontWeight: '700',
+    fontSize: '15px',
+
+    boxShadow: `
+      inset 0 1px 1px rgba(255,255,255,.95)
+    `
   },
 
   brand: {
-    fontSize: '14px',
+    fontSize: '15px',
     fontWeight: '600',
-    letterSpacing: '-0.2px',
-    color: '#1d1d1f'
+    color: '#1d1d1f',
+    letterSpacing: '-0.2px'
   },
 
-  tabs: {
+  subtitle: {
+    fontSize: '12px',
+    color: '#8e8e93',
+    marginTop: '2px'
+  },
+
+  centerNav: {
     display: 'flex',
     gap: '8px',
+
     padding: '6px',
-    background: 'rgba(255,255,255,0.35)',
-    borderRadius: '16px',
-    backdropFilter: 'blur(18px)',
-    border: '1px solid rgba(255,255,255,0.5)'
+
+    background: 'rgba(255,255,255,0.16)',
+
+    border:
+      '1px solid rgba(255,255,255,0.35)',
+
+    backdropFilter: 'blur(25px)',
+
+    borderRadius: '22px',
+
+    boxShadow: `
+      inset 0 1px 1px rgba(255,255,255,.5)
+    `
   },
 
   tab: {
-    padding: '8px 14px',
-    borderRadius: '12px',
+    padding: '12px 22px',
+
+    border: 'none',
+    outline: 'none',
+
+    borderRadius: '18px',
 
     background: 'transparent',
-    border: '1px solid transparent',
+
+    color: '#6e6e73',
 
     fontSize: '13px',
     fontWeight: '500',
-    color: '#6e6e73',
 
     cursor: 'pointer',
-    transition: 'all 0.25s ease'
+
+    transition: 'all .25s ease'
   },
 
-  active: {
-    padding: '8px 14px',
-    borderRadius: '12px',
+  activeTab: {
+    padding: '12px 22px',
 
-    background: 'rgba(255,255,255,0.7)',
-    border: '1px solid rgba(255,255,255,0.8)',
+    borderRadius: '18px',
 
-    fontSize: '13px',
-    fontWeight: '600',
+    border:
+      '1px solid rgba(255,255,255,.7)',
+
+    background: `
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,.78),
+        rgba(255,255,255,.42)
+      )
+    `,
+
     color: '#1d1d1f',
 
-    boxShadow: '0 6px 16px rgba(0,0,0,0.06)',
+    fontWeight: '600',
+    fontSize: '13px',
 
     cursor: 'pointer',
-    transition: 'all 0.25s ease'
+
+    backdropFilter: 'blur(25px)',
+
+    boxShadow: `
+      0 12px 24px rgba(0,0,0,.06),
+      inset 0 1px 1px rgba(255,255,255,.95)
+    `,
+
+    transform: 'translateY(-1px)',
+
+    transition: 'all .25s ease'
   },
 
-  right: {
-    display: 'flex',
-    alignItems: 'center'
+  rightSection: {
+    justifySelf: 'end'
   },
 
   logout: {
-    padding: '8px 14px',
-    borderRadius: '12px',
+    padding: '11px 18px',
 
-    background: 'rgba(255,255,255,0.35)',
-    border: '1px solid rgba(255,255,255,0.5)',
+    borderRadius: '18px',
+
+    border:
+      '1px solid rgba(255,59,48,.12)',
+
+    background: 'rgba(255,255,255,.22)',
+
+    backdropFilter: 'blur(20px)',
+
+    color: '#d70015',
 
     fontSize: '13px',
     fontWeight: '500',
-    color: '#d70015',
 
     cursor: 'pointer',
-    transition: 'all 0.25s ease'
+
+    transition: 'all .25s ease'
   }
 }

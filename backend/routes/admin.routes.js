@@ -1,11 +1,17 @@
-const express = require('express')
-const router  = express.Router()
+const express    = require('express')
+const router     = express.Router()
 const adminMiddleware = require('../middleware/admin.middleware')
-const { getAll, addUser, removeUser } = require('../controllers/admin.controller')
+const {
+  login, getAll, addUser, updateRole, removeUser
+} = require('../controllers/admin.controller')
 
-router.use(adminMiddleware)
-router.get('/',          getAll)
-router.post('/',         addUser)
-router.delete('/:email', removeUser)
+// Public — admin login
+router.post('/login', login)
+
+// Protected — all below require admin JWT
+router.get('/',              adminMiddleware, getAll)
+router.post('/',             adminMiddleware, addUser)
+router.patch('/:email',      adminMiddleware, updateRole)
+router.delete('/:email',     adminMiddleware, removeUser)
 
 module.exports = router

@@ -1,34 +1,50 @@
-// const Whitelist = require('../models/Whitelist')
-
-// const isWhitelisted = async (email) => {
-//   const found = await Whitelist.findOne({ email: email.toLowerCase() })
-//   return !!found
-// }
-
-// const getAllUsers = async () => {
-//   return await Whitelist.find().sort({ addedAt: -1 })
-// }
-
-// const addUser = async (email, addedBy = 'admin') => {
-//   return await Whitelist.create({ email, addedBy })
-// }
-
-// const removeUser = async (email) => {
-//   return await Whitelist.findOneAndDelete({ email: email.toLowerCase() })
-// }
-
-// module.exports = { isWhitelisted, getAllUsers, addUser, removeUser }
-
 const Whitelist = require('../models/whitelist.model')
 
+// CHECK
 const isWhitelisted = async (email) => {
   if (!email) return false
 
-  const user = await Whitelist.findOne({
+  const found = await Whitelist.findOne({
     email: email.toLowerCase()
   })
 
-  return !!user
+  return !!found
 }
 
-module.exports = { isWhitelisted }
+// GET ALL
+const getAllUsers = async () => {
+  return await Whitelist.find().sort({ addedAt: -1 })
+}
+
+// ADD
+const addUser = async (email, role = 'Employee', addedBy = 'admin') => {
+  return await Whitelist.create({
+    email: email.toLowerCase(),
+    role,
+    addedBy
+  })
+}
+
+// REMOVE
+const removeUser = async (email) => {
+  return await Whitelist.findOneAndDelete({
+    email: email.toLowerCase()
+  })
+}
+
+// UPDATE ROLE
+const updateRole = async (email, role) => {
+  return await Whitelist.findOneAndUpdate(
+    { email: email.toLowerCase() },
+    { role },
+    { new: true }
+  )
+}
+
+module.exports = {
+  isWhitelisted,
+  getAllUsers,
+  addUser,
+  removeUser,
+  updateRole
+}

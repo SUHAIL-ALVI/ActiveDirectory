@@ -1,13 +1,17 @@
 const jwt = require('jsonwebtoken')
 
-const signToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
-  })
-}
+// Regular user token
+const signToken = (payload) =>
+  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
 
-const verifyToken = (token) => {
-  return jwt.verify(token, process.env.JWT_SECRET)
-}
+const verifyToken = (token) =>
+  jwt.verify(token, process.env.JWT_SECRET)
 
-module.exports = { signToken, verifyToken }
+// Admin token — separate secret
+const signAdminToken = (payload) =>
+  jwt.sign(payload, process.env.ADMIN_JWT_SECRET, { expiresIn: '8h' })
+
+const verifyAdminToken = (token) =>
+  jwt.verify(token, process.env.ADMIN_JWT_SECRET)
+
+module.exports = { signToken, verifyToken, signAdminToken, verifyAdminToken }

@@ -1,49 +1,39 @@
-const Whitelist = require('../models/whitelist.model')
+const mongoose = require('mongoose')
 
-// GET ALL USERS
-const getAllUsers = async () => {
-  return await Whitelist.find().sort({ addedAt: -1 })
-}
+const whitelistSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true
+    },
 
-// ADD USER
-const addUser = async (email, addedBy = 'admin') => {
-  const exists = await Whitelist.findOne({ email: email.toLowerCase() })
+    role: {
+      type: String,
+      enum: ['Admin', 'Manager', 'Employee'],
+      default: 'Employee'
+    },
 
-  if (exists) {
-    const err = new Error('User already exists')
-    err.code = 11000
-    throw err
+    addedAt: {
+      type: Date,
+      default: Date.now
+    },
+
+    addedBy: {
+      type: String,
+      default: 'admin',
+      trim: true
+    }
+  },
+  {
+    versionKey: false
   }
+)
 
-  const user = new Whitelist({
-    email: email.toLowerCase(),
-    addedBy
-  })
+// safety: prevent duplicate race conditions
+whitelistSchema.index({ email: 1 }, { unique: true })
 
-  return await user.save()
-}
-
-// REMOVE USER
-const removeUser = async (email) => {
-  return await Whitelist.findOneAndDelete({
-    email: email.toLowerCase()
-  })
-}
-
-// CHECK WHITELIST
-const isWhitelisted = async (email) => {
-  if (!email) return false
-
-  const user = await Whitelist.findOne({
-    email: email.toLowerCase()
-  })
-
-  return !!user
-}
-
-module.exports = {
-  getAllUsers,
-  addUser,
-  removeUser,
-  isWhitelisted
-}
+module.exports = mongoose.model('Whitelist', whitelistSchema)

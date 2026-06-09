@@ -1,7 +1,52 @@
 import api from './api'
 
-const headers = { 'x-admin-secret': 'adminkey999' }
+// ===== TOKEN STORAGE =====
+let adminToken = null
 
-export const getWhitelist  = ()      => api.get('/api/admin/whitelist', { headers })
-export const addToWhitelist    = (email) => api.post('/api/admin/whitelist', { email }, { headers })
-export const removeFromWhitelist = (email) => api.delete(`/api/admin/whitelist/${email}`, { headers })
+export const setAdminToken = (token) => {
+  adminToken = token
+}
+
+export const getAdminToken = () => {
+  return adminToken
+}
+
+export const clearAdminToken = () => {
+  adminToken = null
+}
+
+// ===== HEADERS =====
+const adminHeaders = () => ({
+  headers: {
+    Authorization: `Bearer ${adminToken}`
+  }
+})
+
+// ===== AUTH =====
+export const adminLogin = (username, password) => {
+  return api.post('/api/admin/whitelist/login', { username, password })
+}
+
+// ===== WHITELIST =====
+export const getWhitelist = () => {
+  return api.get('/api/admin/whitelist', adminHeaders())
+}
+
+export const addToWhitelist = (email, role) => {
+  return api.post('/api/admin/whitelist', { email, role }, adminHeaders())
+}
+
+export const updateUserRole = (email, role) => {
+  return api.patch(
+    `/api/admin/whitelist/${encodeURIComponent(email)}`,
+    { role },
+    adminHeaders()
+  )
+}
+
+export const removeFromWhitelist = (email) => {
+  return api.delete(
+    `/api/admin/whitelist/${encodeURIComponent(email)}`,
+    adminHeaders()
+  )
+}
