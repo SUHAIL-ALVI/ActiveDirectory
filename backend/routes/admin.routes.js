@@ -5,10 +5,10 @@ const {
   login, getAll, addUser, updateRole, removeUser
 } = require('../controllers/admin.controller')
 
-// Public — admin login
+
 router.post('/login', login)
 
-// Protected — all below require admin JWT
+//Secured Route.
 router.get('/',              adminMiddleware, getAll)
 router.post('/',             adminMiddleware, addUser)
 router.patch('/:email',      adminMiddleware, updateRole)

@@ -33,7 +33,7 @@ const whitelistSchema = new mongoose.Schema(
   }
 )
 
-// safety: prevent duplicate race conditions
+//unique true for duplicate user handle...
 whitelistSchema.index({ email: 1 }, { unique: true })
 
 module.exports = mongoose.model('Whitelist', whitelistSchema)

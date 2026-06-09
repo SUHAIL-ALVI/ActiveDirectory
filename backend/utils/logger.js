@@ -3,6 +3,7 @@ const log = (level, message) => {
   console.log(`[${time}] [${level.toUpperCase()}] ${message}`)
 }
 
+
 module.exports = {
   info:  (msg) => log('info', msg),
   warn:  (msg) => log('warn', msg),

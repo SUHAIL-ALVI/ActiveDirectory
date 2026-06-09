@@ -11,12 +11,12 @@ const isWhitelisted = async (email) => {
   return !!found
 }
 
-// GET ALL
+// GET ALL users
 const getAllUsers = async () => {
   return await Whitelist.find().sort({ addedAt: -1 })
 }
 
-// ADD
+// ADD user...
 const addUser = async (email, role = 'Employee', addedBy = 'admin') => {
   return await Whitelist.create({
     email: email.toLowerCase(),
@@ -25,14 +25,14 @@ const addUser = async (email, role = 'Employee', addedBy = 'admin') => {
   })
 }
 
-// REMOVE
+// REMOVE users...
 const removeUser = async (email) => {
   return await Whitelist.findOneAndDelete({
     email: email.toLowerCase()
   })
 }
 
-// UPDATE ROLE
+// UPDATE ROLE 
 const updateRole = async (email, role) => {
   return await Whitelist.findOneAndUpdate(
     { email: email.toLowerCase() },

@@ -2,7 +2,7 @@ const whitelistService = require('../services/whitelist.service')
 const { signAdminToken } = require('../services/token.service')
 const logger = require('../utils/logger')
 
-// ── Admin Login ──────────────────────────────────────────
+//admin Login.....
 const login = async (req, res) => {
   const { username, password } = req.body
 
@@ -22,13 +22,16 @@ const login = async (req, res) => {
   res.json({ token, username })
 }
 
-// ── Get all whitelisted users ────────────────────────────
+// all whitelisted user (GET)
 const getAll = async (req, res) => {
   const users = await whitelistService.getAllUsers()
   res.json(users)
 }
+//add user.....
 
-// ── Add user ─────────────────────────────────────────────
+
+
+
 const addUser = async (req, res) => {
   const { email, role, addedBy } = req.body
   if (!email)
@@ -46,7 +49,10 @@ const addUser = async (req, res) => {
   }
 }
 
-// ── Update role ──────────────────────────────────────────
+//update user...
+
+
+
 const updateRole = async (req, res) => {
   const { email } = req.params
   const { role }  = req.body
@@ -62,8 +68,9 @@ const updateRole = async (req, res) => {
   logger.info(`Role updated: ${email} → ${role}`)
   res.json({ message: 'Role updated', user: updated })
 }
+//remove User...
 
-// ── Remove user ──────────────────────────────────────────
+
 const removeUser = async (req, res) => {
   const result = await whitelistService.removeUser(req.params.email)
   if (!result)
