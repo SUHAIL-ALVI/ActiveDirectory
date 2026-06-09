@@ -4,6 +4,10 @@ A full-stack authentication system built using **React, Node.js, OpenLDAP, Mongo
 
 The application allows users to log in using Active Directory (LDAP) credentials while restricting access to only approved users through a MongoDB whitelist.
 
+## Login Screen
+
+![Login Screen](./images/login.png)
+
 ---
 
 ## Features
@@ -117,7 +121,7 @@ This separation keeps authentication and authorization independent.
 
 ---
 
-## Why OpenLDAP Instead of Azure AD?
+## Why i used OpenLDAP Instead of Azure AD?
 
 OpenLDAP was used because:
 
