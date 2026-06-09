@@ -70,6 +70,10 @@ The application allows users to log in using Active Directory (LDAP) credentials
 
 ![Structure](./images/structure.png)
 
+## Flow
+
+![Flow](./images/flow.png)
+
 ## System Flow
 
 ```text
