@@ -66,6 +66,10 @@ The application allows users to log in using Active Directory (LDAP) credentials
 
 ---
 
+## Structure
+
+![Structure](./images/structure.png)
+
 ## System Flow
 
 ```text
