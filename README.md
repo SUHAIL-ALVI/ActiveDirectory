@@ -200,4 +200,9 @@ This project demonstrates a production-style authentication architecture where:
 * JWT manages sessions
 * Admins control access through a dedicated management portal
 
+
+## Documentation
+
+📄 [Project Documentation](./images/AD_Auth_Complete_Summary.docx)
+
 The system is designed to be easily migrated from OpenLDAP to Microsoft Active Directory or Azure AD with minimal code changes.
